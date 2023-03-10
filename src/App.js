@@ -2,13 +2,16 @@ import React from 'react';
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter } from 'react-router-dom';
 import Routing from './Routing';
+import AuthContextProvider from './contexts/authContext';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routing />
-    </BrowserRouter>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routing />
+      </BrowserRouter>
+    </AuthContextProvider>
   )
 }
 
