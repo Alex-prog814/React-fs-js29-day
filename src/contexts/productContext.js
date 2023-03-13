@@ -56,6 +56,54 @@ const ProductContextProvider = ({ children }) => {
         };
     };
 
+    async function getCategories() {
+        try {
+            const res = await axios(`${API}/category/list/`);
+            dispatch({
+                type: 'GET_CATEGORIES',
+                payload: res.data.results
+            });
+        } catch(err) {
+            console.log(err);
+        };
+    };
+
+    async function createProduct(newProduct, navigate) {
+        try {
+            const tokens = JSON.parse(localStorage.getItem('tokens'));
+            // config
+            const Authorization = `Bearer ${tokens.access}`;
+            const config = {
+                headers: {
+                    Authorization
+                }
+            };
+            const res = await axios.post(`${API}/products/`, newProduct, config);
+            console.log(res);
+            navigate('/products');
+            getProducts();
+        } catch(err) {
+            console.log(err);
+        };
+    };
+
+    async function toggleLike(id) {
+        try {
+            const tokens = JSON.parse(localStorage.getItem('tokens'));
+            // config
+            const Authorization = `Bearer ${tokens.access}`;
+            const config = {
+                headers: {
+                    Authorization
+                }
+            };
+            const res = await axios(`${API}/products/${id}/toggle_like/`, config);
+            getProducts();
+        } catch(err) {
+            console.log(err);
+        };
+    };
+
   return (
     <productsContext.Provider value={{
         products: state.products,
@@ -63,7 +111,10 @@ const ProductContextProvider = ({ children }) => {
         categories: state.categories,
         oneProduct: state.oneProduct,
 
-        getProducts
+        getProducts,
+        getCategories,
+        createProduct, 
+        toggleLike
     }}>
         { children }
     </productsContext.Provider>
