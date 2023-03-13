@@ -3,15 +3,18 @@ import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter } from 'react-router-dom';
 import Routing from './Routing';
 import AuthContextProvider from './contexts/authContext';
+import ProductContextProvider from './contexts/productContext';
 
 const App = () => {
   return (
-    <AuthContextProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Routing />
-      </BrowserRouter>
-    </AuthContextProvider>
+    <ProductContextProvider>
+      <AuthContextProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Routing />
+        </BrowserRouter>
+      </AuthContextProvider>
+    </ProductContextProvider>
   )
 }
 

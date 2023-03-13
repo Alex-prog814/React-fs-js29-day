@@ -24,6 +24,20 @@ const AuthContextProvider = ({ children }) => {
         };
     };
 
+    async function handleLogin(formData, email, navigate) {
+        try {
+            const res = await axios.post(`${API}/account/login/`, formData);
+            localStorage.setItem("tokens", JSON.stringify(res.data));
+            localStorage.setItem("email", email);
+            setCurrentUser(email);
+            console.log(res);
+            navigate('/');
+        } catch(err) {
+            console.log(err);
+            setError([err.response.data.detail]);
+        }
+    }
+
   return (
     <authContext.Provider value={{
         currentUser,
@@ -31,7 +45,8 @@ const AuthContextProvider = ({ children }) => {
         loading,
 
         setError,
-        handleRegister
+        handleRegister,
+        handleLogin
     }}>
         { children }
     </authContext.Provider>
